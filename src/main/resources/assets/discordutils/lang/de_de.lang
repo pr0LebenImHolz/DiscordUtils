@@ -1,0 +1,14 @@
+# COMMANDS
+commands.link.usage=/link <Discord Name|Discord ID>: Erstellt eine zu bestätigenden Verknüpfung zwischen dem Minecraft- und dem Discord-Account.
+commands.unlink.usage=/unlink: Löscht eine Verknüpfung, sofern sie existiert.
+
+# RESPONSES
+discordutils.lang.command.link.requested=Verknüpfung gespeichert. Bitte bestätige sie auf dem Discord Server mit §7/link %s§r.
+discordutils.lang.command.link.confirmed=Verknüpfung bestätigt.
+discordutils.lang.command.link.invalid_account=Ungültiger Discord Account. Hat sich da etwa ein Rechtschreibfehler eingeschlichen? Beispiel: §7Clyde#0000§r
+discordutils.lang.command.link.unknown_account=Der Account konnte nicht auf dem Server gefunden werden.
+discordutils.lang.command.link.no_backend=Konnte keine Verbindung herstellen. Bitte versuche es erneut, sollte der Fehler weiterhin bestehen, bitte benachrichtige die Administration.
+discordutils.lang.command.unlink.success=Verknüpfung gelöscht.
+discordutils.lang.command.unlink.no_link=Keine Verknüpfung vorhanden.
+discordutils.lang.command.unlink.no_backend=Konnte keine Verbindung herstellen. Bitte versuche es erneut, sollte der Fehler weiterhin bestehen, bitte benachrichtige die Administration.
+discordutils.lang.command_generic.failure=Ein unbekannter Fehler ist aufgetreten. Bitte versuche es erneut, sollte der Fehler weiterhin bestehen, bitte benachrichtige die Administration.

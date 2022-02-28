@@ -1,0 +1,14 @@
+# COMMANDS
+commands.link.usage=/link <Discord Name|Discord ID>: Creates a link to be confirmed between the Minecraft and Discord account.
+commands.unlink.usage=/unlink: Deletes a link if it exists.
+
+# RESPONSES
+discordutils.lang.command.link.requested=Link saved. Please confirm it on the Discord server with §7/link %s§r.
+discordutils.lang.command.link.confirmed=Link confirmed.
+discordutils.lang.command.link.invalid_account=Invalid Discord account. Has there been a spelling mistake? Example: §7Clyde#0000§r
+discordutils.lang.command.link.unknown_account=The account could not be found on the server.
+discordutils.lang.command.link.no_backend=Could not connect. Please try again, if the error persists, please notify the administration.
+discordutils.lang.command.unlink.success=Link deleted.
+discordutils.lang.command.unlink.no_link=No link available.
+discordutils.lang.command.unlink.no_backend=Could not connect. Please try again, if the error persists, please notify the administration.
+discordutils.lang.command_generic.failure=An unknown error has occurred. Please try again, if the error persists, please notify the administration.
