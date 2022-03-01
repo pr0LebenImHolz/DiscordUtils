@@ -13,6 +13,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.apache.logging.log4j.Logger;
 
 @Mod(modid = Constants.MODID, name = Constants.NAME, version = Constants.VERSION)
+// TODO: 01.03.22 is this working? (used for PlayerEvents) - server*Events are serverside anyways, init events are common - they'll need SideOnly
 @Mod.EventBusSubscriber(value = Side.SERVER)
 public class DiscordUtils {
 

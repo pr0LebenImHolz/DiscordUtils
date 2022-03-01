@@ -11,4 +11,7 @@ public class ModuleRanks extends Module {
         super(KEY, loggerName);
         throw new NotImplementedException("This module is not implemented yet. Disable it in the config.");
     }
+
+    // TODO: 01.03.22 @5kw implement (via command or IMC)
+    // TODO: 01.03.22 register command for triggering update
 }

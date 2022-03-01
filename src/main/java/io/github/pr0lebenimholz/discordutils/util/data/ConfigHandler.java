@@ -26,8 +26,6 @@ public class ConfigHandler {
     public static Boolean ranksIgnoreUnknown;
     public static HashMap<String, Integer> ranksPlaytime;
 
-    // TODO: 01.03.22 maybe new module for ranks update?
-
     /*
     // farmworld - implement when required
     public static String FARMWORLD_NAME;

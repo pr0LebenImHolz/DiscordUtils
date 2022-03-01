@@ -2,7 +2,7 @@ package io.github.pr0lebenimholz.discordutils.status;
 
 import org.apache.logging.log4j.Logger;
 
-
+// TODO: 01.03.22 implement - different version support
 public class StatusApi {
 
     private final Logger logger;
