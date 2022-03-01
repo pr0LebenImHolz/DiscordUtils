@@ -1,10 +1,12 @@
-package io.github.pr0lebenimholz.discordutils.data;
+package io.github.pr0lebenimholz.discordutils.util.data;
 
 import io.github.pr0lebenimholz.discordutils.linking.ModuleLinking;
+import io.github.pr0lebenimholz.discordutils.ranks.ModuleRanks;
 import io.github.pr0lebenimholz.discordutils.status.ModuleStatus;
 import net.minecraftforge.common.config.Configuration;
 
 import java.io.File;
+import java.util.Collections;
 import java.util.HashMap;
 
 public class ConfigHandler {
@@ -12,14 +14,17 @@ public class ConfigHandler {
     private static Configuration config;
     private static HashMap<String, Boolean> modules;
 
-    // TODO: 01.03.22 lowercase
-    public static String STATUS_API_VERSION;
-    public static String STATUS_API_URL;
-    public static String STATUS_API_TOKEN;
+    public static String statusApiVersion;
+    public static String statusApiUrl;
+    public static String statusApiToken;
 
-    public static String LINKING_API_VERSION;
-    public static String LINKING_API_URL;
-    public static String LINKING_API_TOKEN;
+    public static String linkingApiVersion;
+    public static String linkingApiUrl;
+    public static String linkingApiToken;
+
+    public static Boolean ranksNotifyDiscord;
+    public static Boolean ranksIgnoreUnknown;
+    public static HashMap<String, Integer> ranksPlaytime;
 
     // TODO: 01.03.22 maybe new module for ranks update?
 
@@ -46,18 +51,26 @@ public class ConfigHandler {
                 "This module sends updates to a Discord bot which displays the current server status. See https://github.com/pr0LebenImHolz/MinecraftServerStatusBot",
                 true);
         validValues = new String[] {"1.0.0", "1.0.1"};
-        STATUS_API_VERSION = config.getString("api_version", category, "1.0.0", createComment("The API version to use.", validValues), validValues);
-        STATUS_API_URL = config.getString("api_url", category, "", "The API URL (https://example.com:443/foo/bar)");
-        STATUS_API_TOKEN = config.getString("api_token", category, "", "The token defined in the bots config");
+        statusApiVersion = config.getString("api_version", category, "1.0.0", createComment("The API version to use.", validValues), validValues);
+        statusApiUrl = config.getString("api_url", category, "", "The API URL (https://example.com:443/foo/bar)");
+        statusApiToken = config.getString("api_token", category, "", "The token defined in the bots config");
 
         category = createModule(
                 ModuleLinking.KEY,
                 "This module enables the player to link his Discord and Minecraft account",
                 true);
         validValues = new String[] {"1.0.0", "1.0.1"};
-        LINKING_API_VERSION = config.getString("api_version", category, "1.0.0", createComment("The API version to use", validValues), validValues);
-        LINKING_API_URL = config.getString("api_url", category, "", "The API URL (https://example.com:443/foo/bar)");
-        LINKING_API_TOKEN = config.getString("api_token", category, "", "The token defined in the bots config");
+        linkingApiVersion = config.getString("api_version", category, "1.0.0", createComment("The API version to use", validValues), validValues);
+        linkingApiUrl = config.getString("api_url", category, "", "The API URL (https://example.com:443/foo/bar)");
+        linkingApiToken = config.getString("api_token", category, "", "The token defined in the bots config");
+
+        category = createModule(
+                ModuleRanks.KEY,
+                "This module updates ranks (FTB-Utilities) based on playing time",
+                false);
+        ranksNotifyDiscord = config.getBoolean("notify_link", category, true, "Notifies the (enabled) linking module to update the Discord role");
+        ranksIgnoreUnknown = config.getBoolean("ignore_unknown", category, true, "Ignores players with unknown ranks");
+        ranksPlaytime = null;
 
         /*
         // farmworld - implement when required

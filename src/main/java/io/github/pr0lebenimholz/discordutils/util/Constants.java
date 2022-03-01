@@ -1,4 +1,4 @@
-package io.github.pr0lebenimholz.discordutils;
+package io.github.pr0lebenimholz.discordutils.util;
 
 public class Constants {
     public static final String MODID = "discordutils";
