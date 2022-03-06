@@ -3,10 +3,10 @@ package io.github.pr0lebenimholz.discordutils.util.data;
 import io.github.pr0lebenimholz.discordutils.linking.ModuleLinking;
 import io.github.pr0lebenimholz.discordutils.ranks.ModuleRanks;
 import io.github.pr0lebenimholz.discordutils.status.ModuleStatus;
+import io.github.pr0lebenimholz.discordutils.status.StatusApi;
 import net.minecraftforge.common.config.Configuration;
 
 import java.io.File;
-import java.util.Collections;
 import java.util.HashMap;
 
 public class ConfigHandler {
@@ -14,11 +14,12 @@ public class ConfigHandler {
     private static Configuration config;
     private static HashMap<String, Boolean> modules;
 
-    public static String statusApiVersion;
-    public static String statusApiUrl;
+    public static boolean statusApiTls;
+    public static String statusApiHost;
+    public static int statusApiPort;
+    public static String statusApiPath;
     public static String statusApiToken;
 
-    public static String linkingApiVersion;
     public static String linkingApiUrl;
     public static String linkingApiToken;
 
@@ -46,19 +47,18 @@ public class ConfigHandler {
 
         category = createModule(
                 ModuleStatus.KEY,
-                "This module sends updates to a Discord bot which displays the current server status. See https://github.com/pr0LebenImHolz/MinecraftServerStatusBot",
+                "This module sends updates to a Discord bot which displays the current server status.\nAPI Version: " + StatusApi.VERSION + "\nSee https://github.com/pr0LebenImHolz/MinecraftServerStatusBot",
                 true);
-        validValues = new String[] {"1.0.0", "1.0.1"};
-        statusApiVersion = config.getString("api_version", category, "1.0.0", createComment("The API version to use.", validValues), validValues);
-        statusApiUrl = config.getString("api_url", category, "", "The API URL (https://example.com:443/foo/bar)");
-        statusApiToken = config.getString("api_token", category, "", "The token defined in the bots config");
+        statusApiTls = config.getBoolean("api_tls", category, true, "Enables Top Level Security (https - highly recommended)");
+        statusApiHost = config.getString("api_host", category, "", "The FQDN or IP-Address of the API (e.g. example.com)");
+        statusApiPort = config.getInt("api_port", category, 443, 0, 65535, "The port of the API");
+        statusApiPath = config.getString("api_path", category, "/", "The path of the API");
+        statusApiToken = config.getString("api_token", category, "", "The token for the API");
 
         category = createModule(
                 ModuleLinking.KEY,
                 "This module enables the player to link his Discord and Minecraft account",
                 true);
-        validValues = new String[] {"1.0.0", "1.0.1"};
-        linkingApiVersion = config.getString("api_version", category, "1.0.0", createComment("The API version to use", validValues), validValues);
         linkingApiUrl = config.getString("api_url", category, "", "The API URL (https://example.com:443/foo/bar)");
         linkingApiToken = config.getString("api_token", category, "", "The token defined in the bots config");
 
@@ -96,17 +96,6 @@ public class ConfigHandler {
         config.getBoolean("enabled", category, enabledByDefault, "Enables this Module");
         modules.put(category, enabledByDefault);
         return category;
-    }
-
-    /**
-     * Appends valid values to the comment because forge isn't doing its job.
-     *
-     * @param comment The comment to modify
-     * @param validValues The valid values
-     * @return The modified comment
-     */
-    private static String createComment(String comment, String[] validValues) {
-        return comment + "Valid values: [" + String.join("|", validValues) + "]";
     }
 
     /**
