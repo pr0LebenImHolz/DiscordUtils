@@ -20,6 +20,11 @@ public class DiscordUtils {
     private static DiscordUtils instance;
     private static Logger logger;
 
+    public static Logger getLogger() {
+        logger.fatal("DiscordUtils::getLogger is a development method and must not be used in production!");
+        return logger;
+    }
+
     @Mod.EventHandler
     @SideOnly(Side.SERVER)
     public void preInit(FMLPreInitializationEvent event) {
