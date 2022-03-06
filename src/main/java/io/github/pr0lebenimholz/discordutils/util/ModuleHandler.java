@@ -14,8 +14,6 @@ public class ModuleHandler {
     }
 
     public void initEnabledModules() {
-
-        // TODO: 01.03.22 outsource e.g.: ModuleHandler::initEnabledModule(Class<? extends Module>)
         if (ConfigHandler.isModuleEnabled(ModuleStatus.KEY)) {
             new ModuleStatus(this.logger.getName());
             this.logger.debug(String.format("Initialized module '%s'", ModuleStatus.KEY));

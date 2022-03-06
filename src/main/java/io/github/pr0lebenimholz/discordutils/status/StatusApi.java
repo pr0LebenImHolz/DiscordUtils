@@ -12,7 +12,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
 
-// TODO: 01.03.22 implement - different version support
 public class StatusApi extends SimpleApi {
 
     public static final String VERSION = "2.0.0";
