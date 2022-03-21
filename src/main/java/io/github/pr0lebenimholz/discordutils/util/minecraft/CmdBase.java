@@ -2,12 +2,12 @@ package io.github.pr0lebenimholz.discordutils.util.minecraft;
 
 import net.minecraft.command.ICommandSender;
 
-public abstract class CommandBase extends net.minecraft.command.CommandBase {
+public abstract class CmdBase extends net.minecraft.command.CommandBase {
 
     private final String name;
     private final int reqPermLvl;
 
-    public CommandBase(String name, int reqPermLvl) {
+    public CmdBase(String name, int reqPermLvl) {
         this.name = name;
         this.reqPermLvl = reqPermLvl;
     }
@@ -19,7 +19,7 @@ public abstract class CommandBase extends net.minecraft.command.CommandBase {
 
     @Override
     public String getUsage(ICommandSender sender) {
-        return "commands." + name + ".usage";
+        return "commands." + this.name + ".usage";
     }
 
     @Override
