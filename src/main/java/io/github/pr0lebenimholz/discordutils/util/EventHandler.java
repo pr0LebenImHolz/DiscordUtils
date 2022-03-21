@@ -34,8 +34,14 @@ public class EventHandler {
     public static void execute(FMLEvent event) {
         // don't use FMLEvent::getEventType because i can't use it in FMLEventHandler::register and Forge may change stuff...
         String key = event.getClass().getSimpleName();
+        /* TODO: 11.03.22 (when creating and/ or (?) joining a sp world)
+         *  NullPointerException in next line after 'preparing spawn area' and the 'bar steps'
+         *  `if (fmlEvents.containsKey(key) && !fmlEvents.get(key).isEmpty())`
+         *  Additionally, the client keeps stuck in 'Loading World\n\nBuilding Terrain'
+         */
         if (fmlEvents.containsKey(key) && !fmlEvents.get(key).isEmpty())
-            fmlEvents.get(event.getClass().getSimpleName()).forEach(listener -> listener.execute(event));
+            fmlEvents.get(event.getClass().getSimpleName())
+                    .forEach(listener -> listener.execute(event));
     }
 
     public static void execute(Event event) {
