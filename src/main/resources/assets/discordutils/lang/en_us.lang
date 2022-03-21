@@ -1,4 +1,8 @@
 # COMMANDS
+discordutils.commands.usage=/discord: Shows
+discordutils.commands.help.header=--- Showing help page %s of %s (/%s <page>) ---
+discordutils.commands.help.footer=Tip: Use the <tab> key while typing a command to auto-complete the command or its arguments
+
 commands.link.usage=/link <Discord Name|Discord ID>: Creates a link to be confirmed between the Minecraft and Discord account.
 commands.unlink.usage=/unlink: Deletes a link if it exists.
 

@@ -1,27 +1,27 @@
-package io.github.pr0lebenimholz.discordutils.linking.commands;
+package io.github.pr0lebenimholz.discordutils.linking.commands.discord;
 
-import io.github.pr0lebenimholz.discordutils.util.CommandBase;
+import io.github.pr0lebenimholz.discordutils.util.minecraft.ChildCmdBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.server.MinecraftServer;
 
-public class CommandStatus extends CommandBase {
+public class SubCmdDiscordStatus extends ChildCmdBase {
 
-    public CommandStatus() {
-        super("link_status", 0);
+    public SubCmdDiscordStatus() {
+        super("status", 0);
     }
 
     @Override
     public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
         // TODO: 01.03.22 implement
         /*
-         * /link_status
+         * /discord status
          * if (@mc.hasConfirmedLink) return "linked (confirmed)"
          * if (@mc.hasPendingLink) return "linked (pending)"
          * return "unlinked"
          *
-         * /link_status @mc
-         * if (@p.isOp)
+         * /discord status @mc
+         * if (@p.isOp (lvl 4?))
          *   if (@mc.hasConfirmedLink) return "linked (confirmed)"
          *   if (@mc.hasPendingLink) return "linked (pending)"
          *   return "unlinked"

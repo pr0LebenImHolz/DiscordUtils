@@ -1,4 +1,4 @@
-package io.github.pr0lebenimholz.discordutils.util;
+package io.github.pr0lebenimholz.discordutils.util.minecraft;
 
 import net.minecraft.command.ICommandSender;
 

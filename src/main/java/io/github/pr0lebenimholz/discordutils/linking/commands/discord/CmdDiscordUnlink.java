@@ -1,13 +1,13 @@
-package io.github.pr0lebenimholz.discordutils.linking.commands;
+package io.github.pr0lebenimholz.discordutils.linking.commands.discord;
 
-import io.github.pr0lebenimholz.discordutils.util.CommandBase;
+import io.github.pr0lebenimholz.discordutils.util.minecraft.ChildCmdBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.server.MinecraftServer;
 
-public class CommandUnlink extends CommandBase {
+public class SubCmdDiscordUnlink extends ChildCmdBase {
 
-    public CommandUnlink() {
+    public SubCmdDiscordUnlink() {
         super("unlink", 0);
     }
 
