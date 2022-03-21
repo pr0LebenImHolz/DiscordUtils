@@ -4,11 +4,12 @@ import io.github.pr0lebenimholz.discordutils.util.minecraft.ChildCmdBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.text.TextComponentTranslation;
 
-public class SubCmdDiscordUnlink extends ChildCmdBase {
+public class CmdDiscordUnlink extends ChildCmdBase {
 
-    public SubCmdDiscordUnlink() {
-        super("unlink", 0);
+    public CmdDiscordUnlink(String parent) {
+        super(parent, "unlink", 0);
     }
 
     @Override
@@ -21,5 +22,7 @@ public class SubCmdDiscordUnlink extends ChildCmdBase {
          * throw "nothing to unlink"
          *
          */
+        sender.sendMessage(new TextComponentTranslation("discordutils.command_generic.failure_not_implemented",
+                " Unlink CmdDiscordUnlink " + String.join(" ", args)));
     }
 }

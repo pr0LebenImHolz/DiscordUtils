@@ -4,11 +4,12 @@ import io.github.pr0lebenimholz.discordutils.util.minecraft.ChildCmdBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.text.TextComponentTranslation;
 
-public class SubCmdDiscordStatus extends ChildCmdBase {
+public class CmdDiscordStatus extends ChildCmdBase {
 
-    public SubCmdDiscordStatus() {
-        super("status", 0);
+    public CmdDiscordStatus(String parent) {
+        super(parent, "status", 0);
     }
 
     @Override
@@ -27,5 +28,7 @@ public class SubCmdDiscordStatus extends ChildCmdBase {
          *   return "unlinked"
          * throw "insufficient permission"
          */
+        sender.sendMessage(new TextComponentTranslation("discordutils.command_generic.failure_not_implemented",
+                " CmdDiscordStatus " + String.join(" Status ", args)));
     }
 }

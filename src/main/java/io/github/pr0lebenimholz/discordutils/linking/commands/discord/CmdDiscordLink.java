@@ -4,11 +4,12 @@ import io.github.pr0lebenimholz.discordutils.util.minecraft.ChildCmdBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.text.TextComponentTranslation;
 
 public class CmdDiscordLink extends ChildCmdBase {
 
-    public CmdDiscordLink() {
-        super("link", 0);
+    public CmdDiscordLink(String parent) {
+        super(parent, "link", 0);
     }
 
     @Override
@@ -24,5 +25,7 @@ public class CmdDiscordLink extends ChildCmdBase {
          * if (DiscordApi.getMembers[@dc] == undefined) throw "@dc is not on server"
          * return "pending"
          */
+        sender.sendMessage(new TextComponentTranslation("discordutils.command_generic.failure_not_implemented",
+                " CmdDiscordLink " + String.join(" ", args)));
     }
 }
