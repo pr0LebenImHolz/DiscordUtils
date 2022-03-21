@@ -1,6 +1,9 @@
 package io.github.pr0lebenimholz.discordutils.util;
 
-public class Math {
+import javax.annotation.Nonnull;
+import java.util.Arrays;
+
+public class Util {
     /**
      * Performs a PERFormant POSitive DIVision and Rounds the quotient UP.
      *
@@ -12,5 +15,16 @@ public class Math {
      */
     public static int perfPosDivRUp(int dividend, int divisor) {
         return (dividend + divisor - 1) / divisor;
+    }
+
+    /**
+     * Shifts all strings in the array by 1. [a,b,c] -> [b,c]
+     *
+     * @param s The array to shift
+     * @returns A new, shifted array
+     */
+    public static String[] shiftArgs(@Nonnull String[] s) {
+        if(s.length == 1 || s.length == 2) return new String[0];
+        return Arrays.copyOfRange(s, 1, s.length);
     }
 }
