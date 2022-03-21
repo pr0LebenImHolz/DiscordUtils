@@ -1,10 +1,8 @@
 package io.github.pr0lebenimholz.discordutils.linking;
 
-import io.github.pr0lebenimholz.discordutils.linking.commands.CommandLink;
-import io.github.pr0lebenimholz.discordutils.linking.commands.CommandUnlink;
+import io.github.pr0lebenimholz.discordutils.linking.commands.CmdDiscord;
 import io.github.pr0lebenimholz.discordutils.util.EventHandler;
 import io.github.pr0lebenimholz.discordutils.util.Module;
-import net.minecraftforge.fml.common.event.FMLServerStartedEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 
 public class ModuleLinking extends Module {
@@ -19,7 +17,6 @@ public class ModuleLinking extends Module {
 
     public void serverStarting(FMLServerStartingEvent event) {
         this.logger.debug("Server Starting");
-        event.registerServerCommand(new CommandLink());
-        event.registerServerCommand(new CommandUnlink());
+        event.registerServerCommand(new CmdDiscord());
     }
 }
