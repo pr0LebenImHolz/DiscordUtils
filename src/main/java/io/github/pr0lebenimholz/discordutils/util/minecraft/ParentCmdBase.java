@@ -28,7 +28,7 @@ public abstract class ParentCmdBase extends CmdBase {
     // the name of the auto added 'help' child command
     private static final String CHILD_HELP = "help";
     // child command usages per help page (7 usages + header + footer = at least 9 lines)
-    private static final int USAGES_PER_PAGE = 7;
+    private static final int USAGES_PER_PAGE = 8;
 
     /**
      * @param name The name of the command
@@ -86,7 +86,7 @@ public abstract class ParentCmdBase extends CmdBase {
             // `/<Cmd> help[ page=0]`
             // player entered help - display usages of all child commands
             if (args.length == 1 || args.length == 2) {
-                int page = 0;
+                int page = 1;
                 if (args.length == 2) {
                     // `/<Cmd> help <page>`
                     try {
@@ -139,24 +139,33 @@ public abstract class ParentCmdBase extends CmdBase {
                 .sorted()
                 .map(TextComponentTranslation::new)
                 .collect(Collectors.toList());
+
+        // footer
+        TextComponentTranslation footer = null;
+        if (page != 0) {
+            footer = new TextComponentTranslation("discordutils.commands.help.footer");
+            footer.getStyle().setColor(TextFormatting.DARK_GREEN);
+        }
+        if (usages.size() > 7) {
+            usages.add(7, footer);
+        } else {
+            usages.add(footer);
+        }
+
         int pageCount = Util.perfPosDivRUp(usages.size(), USAGES_PER_PAGE);
-        // TODO: 21.03.22 how to tell the player which range of numbers he can pass?
-        if (page < 1 || page > pageCount) throw new NumberInvalidException();
+        if (page < 1) throw new NumberInvalidException("commands.generic.num.tooSmall", page);
+        if (page > pageCount) throw new NumberInvalidException("commands.generic.num.tooBig", page);
         // array of each line of the help page
         ITextComponent[] text = new ITextComponent[9];
         // header
         text[0] = new TextComponentTranslation("discordutils.commands.help.header", page, pageCount, this.getName());
         text[0].getStyle().setColor(TextFormatting.DARK_GREEN);
         // start pos (including) = page (selected page) * 7 (usages per page)
-        // TODO: 21.03.22 check whats the 1st page; 0 or 1? maybe adjust (should be OK like this(TM))
         int startPos = (page - 1) * USAGES_PER_PAGE;
         // end pos (excluding) = start pos + 7 (usages per page)
         int endPos = startPos + USAGES_PER_PAGE;
         for (int i = 1, j = startPos; i < USAGES_PER_PAGE + 1 && j < usages.size(); i++, j++)
             text[i] = usages.get(j);
-        // footer
-        text[8] = new TextComponentTranslation("discordutils.commands.help.footer");
-        text[8].getStyle().setColor(TextFormatting.DARK_GREEN);
 
         return text;
     }
