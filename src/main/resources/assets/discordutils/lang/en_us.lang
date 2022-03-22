@@ -3,7 +3,7 @@ discordutils.commands.help.header=--- Showing help page %s of %s (/%s <page>) --
 discordutils.commands.help.footer=Tip: Use the <tab> key while typing a command to auto-complete the command or its arguments
 
 # COMMANDS
-commands.discord.usage=/discord[ <command>[ <args>]]: Main command for linking Minecraft and Discord accounts (Use /discord for mor information)
+commands.discord.usage=/discord[ <command>[ <args>]]: Main command for linking Minecraft and Discord accounts (Use /discord for more information)
 commands.discord.link.usage=/discord link <Discord>: Requests to link your Minecraft and Discord account
 commands.discord.status.usage=/discord status: Displays your current linking status
 commands.discord.unlink.usage=/discord unlink: Removes a pending or confirmed link if one exists
