@@ -9,32 +9,46 @@ import net.minecraftforge.common.config.Configuration;
 import java.io.File;
 import java.util.HashMap;
 
+/**
+ * Handles the main configuration file located under `/config/discordutils.conf`.
+ *
+ * @author fivekwBassMachine
+ */
 public class ConfigHandler {
 
     private static Configuration config;
     private static HashMap<String, Boolean> modules;
 
+    /** Whether to use TLS for the status API. */
     public static boolean statusApiTls;
+    /** The IP or FQDN of the remote host for the status API. */
     public static String statusApiHost;
+    /** The remote port for the status API. */
     public static int statusApiPort;
+    /** The remote basepath for the status API. */
     public static String statusApiPath;
+    /** The token for the status API. */
     public static String statusApiToken;
 
+    // TODO: 21.03.22 This needs to be updated. See util.api.SimpleApi, See status.StatusApi
+    /** The URL for the linking API including scheme (http(s)), IP or FQDN, port and basepath. e.g. `https://example.com:443/foo/bar/` */
+    @Deprecated
     public static String linkingApiUrl;
+    /** The token for the status API. */
     public static String linkingApiToken;
+    /** Information displayed when entering /discord. */
+    public static FallbackEntry<String, String> linkingInfo;
 
+    /** Notifies the (enabled) linking module to update the Discord role when the minecraft role is updated. */
     public static Boolean ranksNotifyDiscord;
+    /** Ignores players with unknown ranks */
     public static Boolean ranksIgnoreUnknown;
+    /**  */
+    // TODO: 21.03.22 What the hell did I wanted to implement??? ~fivek
     public static HashMap<String, Integer> ranksPlaytime;
 
-    /*
-    // farmworld - implement when required
-    public static String FARMWORLD_NAME;
-    public static String FARMWORLD_RESET;
-    */
-
     /**
-     * Initiates and/ or creates the config file.
+     * Initiates and/ or creates the main configuration file.
      *
      * @param mainConfig The main configuration file
      */
@@ -61,6 +75,11 @@ public class ConfigHandler {
                 true);
         linkingApiUrl = config.getString("api_url", category, "", "The API URL (https://example.com:443/foo/bar)");
         linkingApiToken = config.getString("api_token", category, "", "The token defined in the bots config");
+        linkingInfo = new FallbackEntry<>(
+                config.getString("info_fallback_content", category, "en_us", "The fallback info to display when entered /discord (should be in english)"),
+                config.getString("info_native_content", category, "en_us", "The default info to display when entered /discord (should be in the language most players are using"),
+                config.getString("info_native_lang", category, "en_us", "The language code of the default info (Use language codes like for resource packs e.g. en_us - See #Languages > Available Languages (table) > Locale Code > In-Game @ https://minecraft.fandom.com/wiki/Language?oldid=2105545#Languages)")
+        );
 
         category = createModule(
                 ModuleRanks.KEY,
@@ -68,18 +87,9 @@ public class ConfigHandler {
                 false);
         ranksNotifyDiscord = config.getBoolean("notify_link", category, true, "Notifies the (enabled) linking module to update the Discord role");
         ranksIgnoreUnknown = config.getBoolean("ignore_unknown", category, true, "Ignores players with unknown ranks");
+        // TODO: 21.03.22 ^
         ranksPlaytime = null;
 
-        /*
-        // farmworld - implement when required
-        category = createModule(
-                Module.FARMWORLD.key,
-                "This module creates a dimension for mining/ farming which can be reset regularly and ensures that no players are in this dimension when resetting",
-                true);
-        FARMWORLD_NAME = config.getString("name", category, "Mining", "The name of the dimension");
-        // default value is 02:00 am every monday
-        FARMWORLD_RESET = config.getString("reset", category, "0 2 * * 0", "The reset cycle (like cron job; supported values: 5 × [*|,|-] unsupported values: [?|L|W|#] (See also https://en.wikipedia.org/wiki/Cron#CRON_expression)");
-        */
         config.save();
     }
 
@@ -106,5 +116,36 @@ public class ConfigHandler {
      */
     public static boolean isModuleEnabled(String module) {
         return modules.get(module);
+    }
+
+    /**
+     * Data object; comparable to a Map with only a single value with a predefined default value which is returned
+     * when the key is not found on the Map.
+     * @author fivekWBassMachine
+     */
+    public static class FallbackEntry<K, V> {
+        private final V fallbackValue;
+        private final V value;
+        private final K key;
+
+        /**
+         * @param key
+         * @param value The value to use when the passed key equals the defined key
+         * @param fallbackValue The default value to use when the passed key differs from the default key
+         */
+        public FallbackEntry(K key, V value, V fallbackValue) {
+            this.key = key;
+            this.value = value;
+            this.fallbackValue = fallbackValue;
+        }
+
+        /**
+         * Returns the default value when the key equals the default key or the fallback value otherwise.
+         *
+         * @param key
+         */
+        public V get(K key) {
+            return this.key.equals(key) ? this.value : this.fallbackValue;
+        }
     }
 }

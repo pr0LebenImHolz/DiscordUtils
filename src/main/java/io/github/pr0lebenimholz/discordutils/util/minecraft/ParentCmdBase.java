@@ -14,6 +14,11 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+/**
+ * The base class for each command.
+ *
+ * @author fivekWBassMachine
+ */
 public abstract class ParentCmdBase extends CmdBase {
 
     // no HashMap because we don't need the features but performance
@@ -25,10 +30,15 @@ public abstract class ParentCmdBase extends CmdBase {
     // child command usages per help page (7 usages + header + footer = at least 9 lines)
     private static final int USAGES_PER_PAGE = 7;
 
-    public ParentCmdBase(String name, int reqPermLvl, ChildCmdBase[] subCommands) {
+    /**
+     * @param name The name of the command
+     * @param reqPermLvl The required permission level (OP level) to use this command
+     * @param childCommands All child commands to be registered
+     */
+    public ParentCmdBase(String name, int reqPermLvl, ChildCmdBase[] childCommands) {
         super(name, reqPermLvl);
-        this.childCommands = subCommands;
-        this.childCommandNames = Arrays.stream(subCommands)
+        this.childCommands = childCommands;
+        this.childCommandNames = Arrays.stream(childCommands)
                 .map(ChildCmdBase::getName)
                 .collect(Collectors.toList());
         this.childCommandNames.add(CHILD_HELP);
@@ -110,7 +120,15 @@ public abstract class ParentCmdBase extends CmdBase {
         }
     }
 
-    protected ITextComponent[] getHelp(MinecraftServer server, ICommandSender sender, int page) {
+    /**
+     * Parses the help texts for the command and each child command.
+     *
+     * @param server
+     * @param sender The requester of this help page
+     * @param page The requested help page [1...pages.length]
+     * @return
+     */
+    protected ITextComponent[] getHelp(MinecraftServer server, ICommandSender sender, int page) throws NumberInvalidException {
         // usages of all commands, sorted alphabetically
         // TODO: 12.03.22 (after 1st release or so...)
         //  This sorts the translation keys alphabetically. This will only work when all translation keys are in the
@@ -121,13 +139,17 @@ public abstract class ParentCmdBase extends CmdBase {
                 .sorted()
                 .map(TextComponentTranslation::new)
                 .collect(Collectors.toList());
+        int pageCount = Util.perfPosDivRUp(usages.size(), USAGES_PER_PAGE);
+        // TODO: 21.03.22 how to tell the player which range of numbers he can pass?
+        if (page < 1 || page > pageCount) throw new NumberInvalidException();
         // array of each line of the help page
         ITextComponent[] text = new ITextComponent[9];
         // header
-        text[0] = new TextComponentTranslation("discordutils.commands.help.header", page, Util.perfPosDivRUp(usages.size(), USAGES_PER_PAGE), this.getName());
+        text[0] = new TextComponentTranslation("discordutils.commands.help.header", page, pageCount, this.getName());
         text[0].getStyle().setColor(TextFormatting.DARK_GREEN);
         // start pos (including) = page (selected page) * 7 (usages per page)
-        int startPos = page * USAGES_PER_PAGE;
+        // TODO: 21.03.22 check whats the 1st page; 0 or 1? maybe adjust (should be OK like this(TM))
+        int startPos = (page - 1) * USAGES_PER_PAGE;
         // end pos (excluding) = start pos + 7 (usages per page)
         int endPos = startPos + USAGES_PER_PAGE;
         for (int i = 1, j = startPos; i < USAGES_PER_PAGE + 1 && j < usages.size(); i++, j++)

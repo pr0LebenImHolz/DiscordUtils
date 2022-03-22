@@ -3,7 +3,12 @@ package io.github.pr0lebenimholz.discordutils.util;
 import javax.annotation.Nonnull;
 import java.util.Arrays;
 
+/**
+ * Various small utility methods.
+ */
+// author belongs into the javadocs of the single methods
 public class Util {
+
     /**
      * Performs a PERFormant POSitive DIVision and Rounds the quotient UP.
      *
@@ -11,7 +16,7 @@ public class Util {
      * @param divisor
      * @returns Rounded up quotient
      *
-     * Credits: https://stackoverflow.com/a/7446742
+     * @author [Peter Lawrey @ StackOverflow](https://stackoverflow.com/a/7446742)
      */
     public static int perfPosDivRUp(int dividend, int divisor) {
         return (dividend + divisor - 1) / divisor;
@@ -22,6 +27,8 @@ public class Util {
      *
      * @param s The array to shift
      * @returns A new, shifted array
+     *
+     * @author fivekWBassMachine
      */
     public static String[] shiftArgs(@Nonnull String[] s) {
         if(s.length == 1 || s.length == 2) return new String[0];

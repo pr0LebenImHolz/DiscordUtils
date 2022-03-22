@@ -1,5 +1,13 @@
 package io.github.pr0lebenimholz.discordutils.linking;
 
+// TODO: 21.03.22 WIP, maybe merge those 2 DBs
+// TODO: 21.03.22 author missing. schwitze?
+/**
+ * Handles the databases located on the server under `/[world]/discordutils/PendingLinks.csv` and
+ * `/[world]/discordutils/ConfirmedLinks.csv`
+ *
+ * @author
+ */
 public class LinkDatabaseHandler {
 
     /*

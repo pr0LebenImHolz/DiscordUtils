@@ -1,11 +1,18 @@
 package io.github.pr0lebenimholz.discordutils.linking.commands.discord;
 
 import io.github.pr0lebenimholz.discordutils.util.minecraft.ChildCmdBase;
+import io.github.pr0lebenimholz.discordutils.util.minecraft.ParentCmd;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.text.TextComponentTranslation;
 
+/**
+ * Links the executing player with the passed discord account.
+ *
+ * @author fivekWBassMachine
+ */
+@ParentCmd(value = "io.github.pr0lebenimholz.discordutils.linking.commands.CmdDiscord")
 public class CmdDiscordLink extends ChildCmdBase {
 
     public CmdDiscordLink(String parent) {

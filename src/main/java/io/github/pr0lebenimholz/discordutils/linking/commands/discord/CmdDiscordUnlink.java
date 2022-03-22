@@ -1,11 +1,18 @@
 package io.github.pr0lebenimholz.discordutils.linking.commands.discord;
 
 import io.github.pr0lebenimholz.discordutils.util.minecraft.ChildCmdBase;
+import io.github.pr0lebenimholz.discordutils.util.minecraft.ParentCmd;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.text.TextComponentTranslation;
 
+/**
+ * Deletes a pending or confirmed link request of the executing player.
+ *
+ * @author fivekWBassMachine
+ */
+@ParentCmd(value = "io.github.pr0lebenimholz.discordutils.linking.commands.CmdDiscord")
 public class CmdDiscordUnlink extends ChildCmdBase {
 
     public CmdDiscordUnlink(String parent) {

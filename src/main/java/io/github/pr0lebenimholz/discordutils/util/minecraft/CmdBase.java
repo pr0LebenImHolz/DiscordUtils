@@ -2,6 +2,11 @@ package io.github.pr0lebenimholz.discordutils.util.minecraft;
 
 import net.minecraft.command.ICommandSender;
 
+/**
+ * The base class for every command and child command.
+ *
+ * @author fivekWBassMachine
+ */
 public abstract class CmdBase extends net.minecraft.command.CommandBase {
 
     private final String name;

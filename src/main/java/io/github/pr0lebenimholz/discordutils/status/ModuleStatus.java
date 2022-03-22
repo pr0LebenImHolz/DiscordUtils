@@ -10,6 +10,12 @@ import net.minecraftforge.fml.server.FMLServerHandler;
 
 import java.io.IOException;
 
+/**
+ * This module updates a Discord bot (https://github.com/pr0LebenImHolz/MinecraftServerStatusBot) which displays the
+ * current server status in realtime.
+ *
+ * @author fivekWBassMachine
+ */
 public class ModuleStatus extends Module {
 
     public static final String KEY = "status";

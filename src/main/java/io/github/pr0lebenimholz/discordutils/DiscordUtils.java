@@ -12,6 +12,11 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * DiscordUtils
+ *
+ * @author fivekWBassMachine
+ */
 @Mod(modid = Constants.MODID, name = Constants.NAME, version = Constants.VERSION)
 @Mod.EventBusSubscriber(value = Side.SERVER)
 public class DiscordUtils {
@@ -19,6 +24,11 @@ public class DiscordUtils {
     private static DiscordUtils instance;
     private static Logger logger;
 
+    /**
+     * Development purposes only. Will spam the console.
+     *
+     * @return The logger of this mod
+     */
     public static Logger getLogger() {
         logger.fatal("DiscordUtils::getLogger is a development method and must not be used in production!");
         return logger;
@@ -37,25 +47,25 @@ public class DiscordUtils {
         moduleHandler.initEnabledModules();
     }
 
-    /*
-     * removed unused listeners for performance
+    /* removed unused listeners for performance
     @EventHandler
     @SideOnly(Side.SERVER)
     public void init(FMLInitializationEvent event) {
         FMLEventHandler.execute(event);
-    }
+    }*/
 
+    /* removed unused listeners for performance
     @EventHandler
     @SideOnly(Side.SERVER)
     public void postInit(FMLPostInitializationEvent event) {
         FMLEventHandler.execute(event);
-    }
+    }*/
 
+    /* removed unused listeners for performance
     @EventHandler
     public void serverAboutToStart(FMLServerAboutToStartEvent event) {
         FMLEventHandler.execute(event);
-    }
-     */
+    }*/
 
     @Mod.EventHandler
     public void serverStarting(FMLServerStartingEvent event) {

@@ -9,6 +9,11 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+/**
+ * The base of an HTTP API.
+ *
+ * @author fivekWBassMachine
+ */
 public abstract class SimpleApi {
 
     protected final Logger logger;
@@ -18,6 +23,15 @@ public abstract class SimpleApi {
     private final String path;
     private final String authorization;
 
+    /**
+     *
+     * @param logger The logger (The logger of the class using the API can be used)
+     * @param tls Whether to use TLS (https://)
+     * @param host The remote host (IP or FQDN)
+     * @param port The remote port
+     * @param path The remote basepath
+     * @param authorization The value of the [Authorization header](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Authorization) (&lt;auth-scheme&gt; &lt;credentials&gt;)
+     */
     public SimpleApi(Logger logger, boolean tls, String host, int port, String path, String authorization) {
         this.logger = logger;
         this.tls = tls;
@@ -27,6 +41,20 @@ public abstract class SimpleApi {
         this.authorization = authorization;
     }
 
+    /**
+     * Performs an HTTP request with the specified method and path.
+     *
+     * @param method The [HTTP Request Method](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods)
+     * @param path The remote path, query and hash
+     * @return The response from the server
+     * @throws IOException Thrown by:
+     *  {@link URL#openConnection()},
+     *  {@link HttpURLConnection#setRequestMethod(String)},
+     *  {@link HttpURLConnection#getInputStream()},
+     *  {@link BufferedReader#read()},
+     *  {@link BufferedReader#close()},
+     *  {@link HttpURLConnection#getResponseCode()}
+     */
     protected Response request(HttpMethod method, String path) throws IOException {
         URL url = new URL(this.tls ? "https" : "http", this.host, this.port, path == null ? this.path : this.path + path);
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
@@ -42,9 +70,18 @@ public abstract class SimpleApi {
         return new Response(con.getResponseCode(), builder.toString());
     }
 
+    /**
+     * Contains important parts of the HTTP response.
+     */
     protected static class Response {
 
+        /**
+         * The HTTP response code.
+         */
         public final int code;
+        /**
+         * The HTTP response body.
+         */
         public final String content;
 
         public Response(int code, String content) {
