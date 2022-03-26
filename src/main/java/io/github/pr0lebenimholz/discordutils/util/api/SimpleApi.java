@@ -1,6 +1,5 @@
 package io.github.pr0lebenimholz.discordutils.util.api;
 
-import io.github.pr0lebenimholz.discordutils.status.StatusApi;
 import io.netty.handler.codec.http.HttpMethod;
 import org.apache.logging.log4j.Logger;
 
