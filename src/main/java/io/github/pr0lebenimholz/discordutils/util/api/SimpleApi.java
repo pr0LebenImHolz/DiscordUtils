@@ -1,5 +1,6 @@
 package io.github.pr0lebenimholz.discordutils.util.api;
 
+import io.github.pr0lebenimholz.discordutils.status.StatusApi;
 import io.netty.handler.codec.http.HttpMethod;
 import org.apache.logging.log4j.Logger;
 
@@ -8,6 +9,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * The base of an HTTP API.
@@ -24,6 +27,35 @@ public abstract class SimpleApi {
     private final String authorization;
 
     /**
+     * Initiates API and checks if the versions supported by the remote matches the API version.
+     *
+     * @param logger The logger (The logger of the class using the API can be used)
+     * @param tls Whether to use TLS (https://)
+     * @param host The remote host (IP or FQDN)
+     * @param port The remote port
+     * @param path The remote basepath
+     * @param authorization The value of the [Authorization header](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Authorization) (&lt;auth-scheme&gt; &lt;credentials&gt;)
+     * @param apiVersion The version which must match the versions supported by the remote
+     * @param versionEndpointMethod The Http request method of the version endpoint
+     * @param versionEndpointPath The path of the version endpoint
+     */
+    public SimpleApi(Logger logger,
+                     boolean tls,
+                     String host,
+                     int port,
+                     String path,
+                     String authorization,
+                     String apiVersion,
+                     HttpMethod versionEndpointMethod,
+                     String versionEndpointPath) throws MismatchedVersionException, IOException {
+        this(logger, tls, host,port, path, authorization);
+        Response response = this.request(versionEndpointMethod, versionEndpointPath);
+        List<String> versions = Arrays.asList(response.content.split("\n"));
+        this.logger.info("API: DiscordUtils@" + apiVersion + " Remote@[" + String.join(",", versions) + "]");
+        if (response.code != 200 || !versions.contains(apiVersion)) throw new MismatchedVersionException(apiVersion, response.content);
+    }
+    /**
+     * Initiates API.
      *
      * @param logger The logger (The logger of the class using the API can be used)
      * @param tls Whether to use TLS (https://)

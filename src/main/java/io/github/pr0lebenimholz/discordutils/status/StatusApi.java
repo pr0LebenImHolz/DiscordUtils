@@ -9,9 +9,6 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
-import java.util.List;
-
 /**
  * Handles the connection between the Discord bot (https://github.com/pr0LebenImHolz/MinecraftServerStatusBot - API Version 2.0.0) and this mod
  *
@@ -27,11 +24,7 @@ public class StatusApi extends SimpleApi {
                      int port,
                      String path,
                      String token) throws MismatchedVersionException, IOException {
-        super(logger, tls, host, port, path, "Bearer " + token);
-        Response response = this.request(Endpoint.VERSIONS.method, Endpoint.VERSIONS.path);
-        List<String> versions = Arrays.asList(response.content.split("\n"));
-        this.logger.info("API: DiscordUtils@" + VERSION + " Remote@[" + String.join(",", versions) + "]");
-        if (response.code != 200 || !versions.contains(VERSION)) throw new MismatchedVersionException(VERSION, response.content);
+        super(logger, tls, host, port, path, "Bearer " + token, VERSION, Endpoint.VERSIONS.method, Endpoint.VERSIONS.path);
     }
 
     /**
@@ -133,7 +126,6 @@ public class StatusApi extends SimpleApi {
             this.method = method;
             this.path = path;
         }
-
 
         @Override
         public String toString() {
