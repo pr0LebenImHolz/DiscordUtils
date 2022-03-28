@@ -1,9 +1,10 @@
 package io.github.pr0lebenimholz.discordutils;
 
 import io.github.pr0lebenimholz.discordutils.util.Constants;
-import io.github.pr0lebenimholz.discordutils.util.data.ConfigHandler;
 import io.github.pr0lebenimholz.discordutils.util.EventHandler;
 import io.github.pr0lebenimholz.discordutils.util.ModuleHandler;
+import io.github.pr0lebenimholz.discordutils.util.data.ConfigHandler;
+import io.github.pr0lebenimholz.discordutils.util.network.NetworkManager;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.*;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -47,12 +48,12 @@ public class DiscordUtils {
         moduleHandler.initEnabledModules();
     }
 
-    /* removed unused listeners for performance
-    @EventHandler
-    @SideOnly(Side.SERVER)
+    @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
-        FMLEventHandler.execute(event);
-    }*/
+        NetworkManager.init();
+
+        if (event.getSide() == Side.SERVER) EventHandler.execute(event);
+    }
 
     /* removed unused listeners for performance
     @EventHandler

@@ -22,22 +22,16 @@ public class ModuleStatus extends Module {
 
     private StatusApi api;
 
-    public ModuleStatus(String loggerName) {
+    public ModuleStatus(String loggerName) throws MismatchedVersionException, IOException {
         super(KEY, loggerName);
 
-        try {
-            this.api = new StatusApi(
-                    this.logger,
-                    ConfigHandler.statusApiTls,
-                    ConfigHandler.statusApiHost,
-                    ConfigHandler.statusApiPort,
-                    ConfigHandler.statusApiPath,
-                    ConfigHandler.statusApiToken);
-        } catch (MismatchedVersionException e) {
-            this.logger.error("Unable to connect to API: " + e.getMessage());
-        } catch (IOException e) {
-            this.logger.error("Unable to check API version - updates are deactivated.", e);
-        }
+        this.api = new StatusApi(
+                this.logger,
+                ConfigHandler.statusApiTls,
+                ConfigHandler.statusApiHost,
+                ConfigHandler.statusApiPort,
+                ConfigHandler.statusApiPath,
+                ConfigHandler.statusApiToken);
 
         EventHandler.registerFmlEvent(FMLServerStartedEvent.class, (EventHandler.EventListener<FMLServerStartedEvent>) this::serverStarted);
         EventHandler.registerFmlEvent(FMLServerStoppingEvent.class, (EventHandler.EventListener<FMLServerStoppingEvent>) this::serverStopping);

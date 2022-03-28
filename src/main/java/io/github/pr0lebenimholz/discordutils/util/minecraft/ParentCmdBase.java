@@ -8,6 +8,7 @@ import net.minecraft.command.WrongUsageException;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.*;
+import org.apache.logging.log4j.Logger;
 
 import javax.annotation.Nullable;
 import java.util.*;
@@ -31,12 +32,13 @@ public abstract class ParentCmdBase extends CmdBase {
     private static final int USAGES_PER_PAGE = 8;
 
     /**
+     * @param logger The logger for the command (should be the logger of the module)
      * @param name The name of the command
      * @param reqPermLvl The required permission level (OP level) to use this command
      * @param childCommands All child commands to be registered
      */
-    public ParentCmdBase(String name, int reqPermLvl, ChildCmdBase[] childCommands) {
-        super(name, reqPermLvl);
+    public ParentCmdBase(Logger logger, String name, int reqPermLvl, ChildCmdBase[] childCommands) {
+        super(logger, name, reqPermLvl);
         this.childCommands = childCommands;
         this.childCommandNames = Arrays.stream(childCommands)
                 .map(ChildCmdBase::getName)
@@ -107,6 +109,7 @@ public abstract class ParentCmdBase extends CmdBase {
                 throw new WrongUsageException(this.getUsage(sender));
             }
         } else {
+            // TODO: 26.03.22 implement permission level check
             int subCommandPos = this.childCommandNames.indexOf(args[0]);
             if (subCommandPos != -1) {
                 // /<Cmd> <SubCmd> [...]
@@ -170,5 +173,5 @@ public abstract class ParentCmdBase extends CmdBase {
         return text;
     }
 
-    public void execute(MinecraftServer server, ICommandSender sender) {}
+    public abstract void execute(MinecraftServer server, ICommandSender sender) throws CommandException;
 }

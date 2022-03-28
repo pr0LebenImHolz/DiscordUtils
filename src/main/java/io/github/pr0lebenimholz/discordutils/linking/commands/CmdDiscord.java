@@ -3,14 +3,18 @@ package io.github.pr0lebenimholz.discordutils.linking.commands;
 import io.github.pr0lebenimholz.discordutils.linking.commands.discord.CmdDiscordLink;
 import io.github.pr0lebenimholz.discordutils.linking.commands.discord.CmdDiscordStatus;
 import io.github.pr0lebenimholz.discordutils.linking.commands.discord.CmdDiscordUnlink;
+import io.github.pr0lebenimholz.discordutils.util.Util;
 import io.github.pr0lebenimholz.discordutils.util.data.ConfigHandler;
-import io.github.pr0lebenimholz.discordutils.util.minecraft.ParentCmd;
-import io.github.pr0lebenimholz.discordutils.util.minecraft.ParentCmdBase;
 import io.github.pr0lebenimholz.discordutils.util.minecraft.ChildCmdBase;
+import io.github.pr0lebenimholz.discordutils.util.minecraft.MsgFallbackTranslation;
+import io.github.pr0lebenimholz.discordutils.util.minecraft.ParentCmdBase;
+import io.github.pr0lebenimholz.discordutils.util.network.NetworkManager;
+import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.text.TextComponentString;
-import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Parent for 'link', 'status', 'unlink' and general information
@@ -20,22 +24,22 @@ import net.minecraft.util.text.TextComponentTranslation;
  */
 public class CmdDiscord extends ParentCmdBase {
 
-    public CmdDiscord() {
-        this("discord");
+    public CmdDiscord(Logger logger) {
+        this(logger, "discord");
     }
 
-    private CmdDiscord(String name) {
-        super(name, 0, new ChildCmdBase[] {
-                new CmdDiscordLink(name),
-                new CmdDiscordStatus(name),
-                new CmdDiscordUnlink(name)
+    private CmdDiscord(Logger logger, String name) {
+        super(logger, name, 0, new ChildCmdBase[] {
+                new CmdDiscordLink(logger, name),
+                new CmdDiscordStatus(logger, name),
+                new CmdDiscordUnlink(logger, name)
         });
     }
 
     @Override
-    public void execute(MinecraftServer server, ICommandSender sender) {
-        // TODO: 21.03.22 currently only the default info or fallback info (when the default info is not en_us) is
-        //  supported; is this even possible (keyword privacy)? :facepalm:
-        sender.sendMessage(new TextComponentString(ConfigHandler.linkingInfo.get("en_us")));
+    public void execute(MinecraftServer server, ICommandSender sender) throws CommandException {
+        EntityPlayerMP senderP = Util.Command.ensureSenderIsPlayerElseOnlyPlayers(sender);
+        IMessage message = new MsgFallbackTranslation(ConfigHandler.linkingInfo);
+        NetworkManager.getNetworkChannel().sendTo(message, senderP);
     }
 }
