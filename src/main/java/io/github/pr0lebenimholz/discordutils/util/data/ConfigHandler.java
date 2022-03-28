@@ -103,8 +103,8 @@ public class ConfigHandler {
      */
     private static String createModule(String category, String comment, boolean enabledByDefault) {
         config.addCustomCategoryComment(category, comment);
-        config.getBoolean("enabled", category, enabledByDefault, "Enables this Module");
-        modules.put(category, enabledByDefault);
+        boolean enabled = config.getBoolean("enabled", category, enabledByDefault, "Enables this Module");
+        modules.put(category, enabled);
         return category;
     }
 
