@@ -1,8 +1,10 @@
 package io.github.pr0lebenimholz.discordutils.util.api;
 
 import io.netty.handler.codec.http.HttpMethod;
+import net.minecraft.util.Tuple;
 import org.apache.logging.log4j.Logger;
 
+import javax.annotation.Nullable;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -40,7 +42,7 @@ public abstract class SimpleApi {
         this.path = path;
         this.authorization = authorization;
     }
-
+    
     /**
      * Performs an HTTP request with the specified method and path.
      *
@@ -56,8 +58,32 @@ public abstract class SimpleApi {
      *  {@link HttpURLConnection#getResponseCode()}
      */
     protected Response request(HttpMethod method, String path) throws IOException {
+        return this.request(method, path, null);
+    }
+
+    /**
+     * Performs an HTTP request with the specified method and path.
+     *
+     * @param method The <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods">HTTP Request Method</a>
+     * @param path The remote path, query and hash
+     * @param headers Additional request headers
+     * @return The response from the server
+     * @throws IOException Thrown by:
+     *  {@link URL#openConnection()},
+     *  {@link HttpURLConnection#setRequestMethod(String)},
+     *  {@link HttpURLConnection#getInputStream()},
+     *  {@link BufferedReader#read()},
+     *  {@link BufferedReader#close()},
+     *  {@link HttpURLConnection#getResponseCode()}
+     */
+    protected Response request(HttpMethod method, String path, @Nullable Tuple<String, String>[] headers) throws IOException {
         URL url = new URL(this.tls ? "https" : "http", this.host, this.port, path == null ? this.path : this.path + path);
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
+        if (headers != null && headers.length != 0) {
+            for (Tuple<String, String> header : headers) {
+                con.setRequestProperty(header.getFirst(), header.getSecond());
+            }
+        }
         con.setRequestProperty("Authorization", this.authorization);
         con.setRequestMethod(method.name());
         BufferedReader reader = new BufferedReader(new InputStreamReader(con.getInputStream()));

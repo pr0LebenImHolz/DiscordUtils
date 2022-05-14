@@ -3,6 +3,7 @@ package io.github.pr0lebenimholz.discordutils.status;
 import io.github.pr0lebenimholz.discordutils.util.api.MismatchedVersionException;
 import io.github.pr0lebenimholz.discordutils.util.api.SimpleApi;
 import io.netty.handler.codec.http.HttpMethod;
+import net.minecraft.util.Tuple;
 import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
@@ -18,6 +19,8 @@ import java.util.List;
  * @author fivekWBassMachine
  */
 public class StatusApi extends SimpleApi {
+    
+    private static final Tuple<String, String>[] HEADERS = new Tuple[]{new Tuple<>("Connection", "close")};
 
     public static final String VERSION = "2.0.0";
 
@@ -92,7 +95,7 @@ public class StatusApi extends SimpleApi {
      */
     private void request(Endpoint endpoint) {
         try {
-            this.request(endpoint.method, endpoint.path);
+            this.request(endpoint.method, endpoint.path, HEADERS);
             this.logger.debug("Updated status");
         } catch (IOException e) {
             this.logger.error("Unable to update status: " + endpoint, e);
@@ -106,7 +109,7 @@ public class StatusApi extends SimpleApi {
      */
     private void request(Endpoint endpoint, String data) {
         try {
-            this.request(endpoint.method, endpoint.path + data);
+            this.request(endpoint.method, endpoint.path + data, HEADERS);
             this.logger.debug("Updated status");
         } catch (IOException e) {
             this.logger.error("Unable to update status: " + endpoint, e);
